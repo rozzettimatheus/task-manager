@@ -2,12 +2,13 @@
 
 import { useState, useRef, type ElementRef } from 'react'
 import { useEventListener } from 'usehooks-ts'
+import { toast } from 'sonner'
 import { List } from '@prisma/client'
 
 import { FormInput } from '@/components/form/form-input'
 import { useAction } from '@/hooks/use-action'
 import { updateList } from '@/actions/update-list'
-import { toast } from 'sonner'
+import { ListOptions } from './list-options'
 
 type ListHeaderProps = {
   data: List
@@ -85,6 +86,7 @@ export function ListHeader({ data }: ListHeaderProps) {
           {title}
         </span>
       )}
+      <ListOptions data={data} onAddCard={() => {}} />
     </div>
   )
 }
