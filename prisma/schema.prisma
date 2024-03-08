@@ -14,9 +14,48 @@ datasource db {
 }
 
 model Board {
-  id String @id @default(uuid())
+  id            String @id @default(uuid())
+  orgId         String @map("org_id")
+  title         String
+  imageId       String @map("image_id")
+  imageThumbUrl String @map("image_thumb_url") @db.Text // long text
+  imageFullUrl  String @map("image_full_url") @db.Text
+  imageUsername String @map("image_username") @db.Text
+  imageLinkHtml String @map("image_link_html") @db.Text
 
-  title String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  lists     List[]
 
   @@map("boards")
+}
+
+model List {
+  id    String @id @default(uuid())
+  title String
+  order Int
+
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId String @map("board_id")
+  cards   Card[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([boardId])
+}
+
+model Card {
+  id          String  @id @default(uuid())
+  title       String
+  order       Int
+  description String? @db.Text
+
+  listId String @map("list_id")
+  list   List   @relation(fields: [listId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([listId])
 }

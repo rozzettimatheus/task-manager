@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const createBoardSchema = z.object({
+export const updateBoardSchema = z.object({
   title: z
     .string({
       required_error: 'Title is required',
@@ -10,8 +10,5 @@ export const createBoardSchema = z.object({
       message: 'Title is too short'
     })
     .max(40, 'Title can contain up to 40 characters'),
-  image: z.string({
-    required_error: 'Image is required',
-    invalid_type_error: 'Image is required'
-  })
+  id: z.string()
 })
