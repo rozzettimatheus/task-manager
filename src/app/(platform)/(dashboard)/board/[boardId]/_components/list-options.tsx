@@ -11,6 +11,7 @@ import { useAction } from '@/hooks/use-action'
 import { deleteList } from '@/actions/delete-list'
 import { toast } from 'sonner'
 import { ElementRef, useRef } from 'react'
+import { copyList } from '@/actions/copy-list'
 
 type ListOptionsProps = {
   data: List
@@ -19,6 +20,18 @@ type ListOptionsProps = {
 
 export function ListOptions({ data, onAddCard }: ListOptionsProps) {
   const closeRef = useRef<ElementRef<'button'>>(null)
+  const { execute: executeCopy, isLoading: isLoadingCopy } = useAction(
+    copyList,
+    {
+      onSuccess: data => {
+        toast.success(`List "${data.title}" copied`)
+        closeRef.current?.click()
+      },
+      onError: error => {
+        toast.error(error)
+      }
+    }
+  )
   const { execute: executeDelete, isLoading: isLoadingDelete } = useAction(
     deleteList,
     {
@@ -36,6 +49,12 @@ export function ListOptions({ data, onAddCard }: ListOptionsProps) {
     const id = formData.get('id') as string
     const boardId = formData.get('boardId') as string
     executeDelete({ id, boardId })
+  }
+
+  function onCopy(formData: FormData) {
+    const id = formData.get('id') as string
+    const boardId = formData.get('boardId') as string
+    executeCopy({ id, boardId })
   }
 
   return (
@@ -68,20 +87,31 @@ export function ListOptions({ data, onAddCard }: ListOptionsProps) {
         >
           Add card
         </Button>
-        <form>
-          <input hidden name="id" id="id" value={data.id} />
-          <input hidden name="boardId" id="boardId" value={data.boardId} />
+        <form action={onCopy}>
+          <input hidden name="id" id="id" defaultValue={data.id} />
+          <input
+            hidden
+            name="boardId"
+            id="boardId"
+            defaultValue={data.boardId}
+          />
           <FormSubmit
             variant="ghost"
             className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm"
+            disable={isLoadingCopy}
           >
             Copy list
           </FormSubmit>
         </form>
         <Separator />
         <form action={onDelete}>
-          <input hidden name="id" id="id" value={data.id} />
-          <input hidden name="boardId" id="boardId" value={data.boardId} />
+          <input hidden name="id" id="id" defaultValue={data.id} />
+          <input
+            hidden
+            name="boardId"
+            id="boardId"
+            defaultValue={data.boardId}
+          />
           <FormSubmit
             variant="ghost"
             disabled={isLoadingDelete}
