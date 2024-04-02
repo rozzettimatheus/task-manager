@@ -22,7 +22,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       where: {
         id: listId,
         board: {
-          id: boardId
+          orgId
         }
       }
     })
