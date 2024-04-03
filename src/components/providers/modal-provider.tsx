@@ -15,5 +15,9 @@ export function ModalProvider() {
     return null
   }
 
-  return <CardModal />
+  return (
+    <>
+      <CardModal />
+    </>
+  )
 }

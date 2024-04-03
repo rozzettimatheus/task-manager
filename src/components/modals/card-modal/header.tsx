@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { Layout } from 'lucide-react'
+import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { FormInput } from '@/components/form/form-input'
@@ -8,7 +9,6 @@ import { CardWithList } from '@/types'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAction } from '@/hooks/use-action'
 import { updateCard } from '@/actions/update-card'
-import { toast } from 'sonner'
 
 type HeaderProps = {
   data: CardWithList
