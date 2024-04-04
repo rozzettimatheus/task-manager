@@ -88,3 +88,14 @@ model AuditLog {
 
   @@map("audit_logs")
 }
+
+model OrgLimit {
+  id    String @id @default(uuid())
+  orgId String @unique @map("org_id")
+  count Int    @default(0)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("organization_limits")
+}
