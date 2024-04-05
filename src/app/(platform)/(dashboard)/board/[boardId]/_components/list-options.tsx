@@ -98,7 +98,7 @@ export function ListOptions({ data, onAddCard }: ListOptionsProps) {
           <FormSubmit
             variant="ghost"
             className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm"
-            disable={isLoadingCopy}
+            disabled={isLoadingCopy}
           >
             Copy list
           </FormSubmit>
