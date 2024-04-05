@@ -6,9 +6,11 @@ import { useOrganization } from '@clerk/nextjs'
 
 import { Skeleton } from '@/components/ui/skeleton'
 
-type InfoProps = {}
+type InfoProps = {
+  isPro: boolean
+}
 
-export function Info() {
+export function Info({ isPro }: InfoProps) {
   const { organization, isLoaded } = useOrganization()
 
   if (!isLoaded) {
@@ -29,7 +31,7 @@ export function Info() {
         <p className="font-semibold text-xl">{organization?.name}</p>
         <div className="flex items-center text-xs text-muted-foreground">
           <CreditCard className="h-4 w-4 mr-1" />
-          Free
+          {isPro ? 'Pro' : 'Free'}
         </div>
       </div>
     </div>

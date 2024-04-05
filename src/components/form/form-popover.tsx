@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { X } from 'lucide-react'
 
+import { useProModal } from '@/hooks/use-pro-modal'
 import { useAction } from '@/hooks/use-action'
 import { createBoard } from '@/actions/create-board'
 import * as Popover from '@/components/ui/popover'
@@ -29,6 +30,7 @@ export function FormPopover({
 }: FormPopoverProps) {
   const router = useRouter()
   const closeRef = useRef<React.ElementRef<'button'>>(null)
+  const openProModal = useProModal(state => state.onOpen)
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess: data => {
       toast.success('Board created')
@@ -37,6 +39,7 @@ export function FormPopover({
     },
     onError: error => {
       toast.error(error)
+      openProModal()
     }
   })
 

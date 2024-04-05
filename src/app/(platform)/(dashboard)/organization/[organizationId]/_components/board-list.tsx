@@ -8,6 +8,7 @@ import { FormPopover } from '@/components/form/form-popover'
 import { Hint } from '@/components/hint'
 import { db } from '@/lib/prisma'
 import { getAvailableCount } from '@/lib/org-limit'
+import { checkSubscription } from '@/lib/subscription'
 import { MAX_FREE_BOARDS } from '@/constants/boards'
 
 export async function BoardList() {
@@ -20,6 +21,7 @@ export async function BoardList() {
     orderBy: { createdAt: 'desc' }
   })
   const availableCount = await getAvailableCount()
+  const isPro = await checkSubscription()
 
   return (
     <div className="space-y-4">
@@ -48,7 +50,9 @@ export async function BoardList() {
           >
             <p className="text-sm">Create new board</p>
             <span className="text-xs">
-              {MAX_FREE_BOARDS - availableCount} remaining
+              {isPro
+                ? 'Unlimited'
+                : MAX_FREE_BOARDS - availableCount + 'remaining'}
             </span>
             <Hint
               sideOffset={40}
